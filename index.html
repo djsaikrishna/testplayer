@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OneLinePlayer</title>
+<meta name="description" content="The simplest free web video player for Vimeo and Dropbox">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta charset="utf-8">
+<meta property="og:url" content="https://onelineplayer.com" />
+<meta property="og:image" content="https://onelineplayer.com/common/images/player-social-image.jpg" />
+<meta property="og:title" content="OneLinePlayer" />
+<meta property="og:type" content="website" />
+<meta property="og:description" content="The simplest free web video player for Vimeo and Dropbox" />
+<meta property="fb:app_id" content="573439166421809" />
+<link rel="stylesheet" href="https://use.typekit.net/dbj2bqd.css">
+<link rel="stylesheet" href="player.css">
+<link rel="stylesheet" href="common/style/main.css">
+<link rel="apple-touch-icon" sizes="180x180" href="common/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="common/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="common/images/favicon-16x16.png">
+<link rel="mask-icon" href="common/images/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#2b5797">
+<meta name="theme-color" content="#ffffff">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119543203-1"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-119543203-1');
+    </script>
+</head>
+<body>
+<div id="cookie-banner">
+<section>
+<div>
+This website or its third-party tools use cookies, which are necessary for its functioning and required to achieve the purposes illustrated in the cookie policy.
+If you want to learn more or withdraw your consent to all or some of the cookies, please refer to the <a href="cookies.html" target="_blank">cookie policy</a>.
+You accept the use of cookies by closing or dismissing this notice, by scrolling this page, by clicking a link or button or by continuing to browse otherwise.
+</div>
+<p>
+<button class="button button-black" onclick="javascript: helpers.closeCookieBanner()">Accept</button>
+</p>
+</section>
+</div>
+<div class="container" id="app">
+<div class="header">
+<div class="header__logo">
+<h1 class="logo">onelineplayer</h1>
+</div>
+<div class="header__description">
+<div class="header-line"></div>
+</div>
+</div>
+<div class="subheader">
+<div class="container-desc">
+<p class="site-description">
+The simplest free web video player for Vimeo and Dropbox without branding and quality loss, which loads faster than others and support custom covers.
+</p>
+<p class="site-description site-description--grey"><a href="index.html#" class="open-popup">about us</a></p>
+</div>
+</div>
+<div class="site-body">
+<div class="previewWrap">
+<div class="preview">
+<h2 class="preview-title">Preview</h2>
+<div class="preview__stick">
+<div class="preview__video oneline-player" ref="playerContainer" :style="{ 'box-shadow': shadow, border: stroke }">
+</div>
+<div class="preview__tabs">
+<div class="tabs">
+<ul class="tabs-thumbs">
+<li class="tabs-thumb"><a>Embed Code</a></li>
+</ul>
+<ul class="tabs-panels">
+<li class="tabs-panel">
+<div class="textarea">
+<pre v-highlightjs="embed"><code class="code html" id="code-iframe"></code></pre>
+</div>
+<div class="copy-from">
+<button class="button button--black" data-copy="#code-iframe">Copy</button>
+<div class="button-description button-description--right share_buttons">
+<div class="share_text">
+<div>Like your new player?</div>
+<div>Share with the world!</div>
+</div>
+<div class="share_icons">
+<a href="https://twitter.com/intent/tweet?text=Check%20out%20this%20awesome%20video%20player%20-%20https%3A%2F%2Fonelineplayer.com" aria-label="Share on Twitter">
+<img src="common/images/twitter_icon.svg" height="20" width="20" alt="Share on Twitter">
+</a>
+<a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fonelineplayer.com" aria-label="Share on Facebook">
+<img src="common/images/facebook_icon.svg" height="20" width="20" alt="Share on Facebook">
+</a>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="adjust" role="toolbar">
+<h2 class="adjust-title">Adjust</h2>
+<div class="text-form text-form--video" :class="{ 'text-form--error': sourceError }">
+<ul class="video-services">
+<li class="vimeo" :class="{ active: isVimeo }">
+<svg width="21px" height="18px" viewbox="0 0 21 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Paste a link to Vimeo video below</title>
+<defs></defs>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-1192.000000, -543.000000)" fill="#D8D9DE">
+<g transform="translate(920.000000, 331.000000)">
+<g transform="translate(0.000000, 209.000000)">
+<g transform="translate(272.000000, 3.000000)">
+<path d="M20.4840316,3.34997232 C20.6373566,2.4761343 20.6335708,1.57828974 20.102612,0.898424559 C19.3587018,-0.0560754304 17.7809685,-0.0906448465 16.6972825,0.0783611878 C15.8170834,0.214718329 12.8395496,1.54756137 11.8268474,4.73947079 C13.6213179,4.60119313 14.5620898,4.8691061 14.3898358,6.87605276 C14.3169591,7.7143611 13.8995744,8.63333141 13.4329742,9.51485152 C12.8944438,10.5317685 11.8845809,12.5252715 10.5614429,11.0887202 C9.36796863,9.79236711 9.45788144,7.31873334 9.1843572,5.66996424 C9.03197864,4.74619262 8.87202848,3.59387875 8.57389653,2.64321981 C8.3174084,1.82507696 7.72587673,0.838888342 7.00468133,0.624750014 C6.22859179,0.39428724 5.27173017,0.754385325 4.70859203,1.09047687 C2.91601448,2.15828772 1.55123263,3.67934203 0,4.93344363 L0,5.05059554 C0.307596464,5.34827662 0.390884122,5.83704975 0.843287538,5.9033078 C1.90993743,6.06271122 2.92737189,4.89599343 3.63720989,6.10976404 C4.06784494,6.85396674 4.20224093,7.66730828 4.47860452,8.46720616 C4.84772028,9.53405675 5.13260193,10.6959732 5.43546614,11.921267 C5.94654949,13.999273 6.57499273,17.1028384 8.34390902,17.8633655 C9.24682294,18.2513112 10.6040332,17.7318097 11.2911564,17.3169767 C13.1518784,16.2011528 14.6018408,14.5811915 15.843584,12.9324224 C18.6810431,9.03183996 20.247419,4.61271627 20.4840316,3.34997232" id="Vimeo"></path>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li class="dropbox" :class="{ active: isDropbox }">
+<svg width="21px" height="18px" viewbox="0 0 21 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<title>Paste a shared link from Dropbox below</title>
+<defs></defs>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-1228.000000, -544.000000)" fill="#D8D9DE">
+<g transform="translate(920.000000, 331.000000)">
+<g transform="translate(0.000000, 209.000000)">
+<g transform="translate(272.000000, 3.000000)">
+<path d="M46.29952,4.38579167 L41.1500065,7.7710755 L46.29952,11.1568672 L41.1500065,14.542151 L36,11.1284279 L41.1500065,7.74314411 L36,4.38579167 L41.1500065,1 L46.29952,4.38579167 Z M41.1223952,15.6142083 L46.2719086,12.2289245 L51.4219151,15.6142083 L46.2719086,19 L41.1223952,15.6142083 Z M46.29952,11.1284279 L51.4490334,7.74314411 L46.29952,4.38579167 L51.4219151,1 L56.5714286,4.38579167 L51.4219151,7.7710755 L56.5714286,11.1568672 L51.4219151,14.542151 L46.29952,11.1284279 Z" id="Fill-1"></path>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>
+</li>
+
+<li class="web" :class="{ active: isWeb }">
+<svg width="19px" height="19px" viewbox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<title>Paste a public URL to your video file below</title>
+<defs></defs>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-1301.000000, -543.000000)" fill="#D8D9DE">
+<g transform="translate(920.000000, 331.000000)">
+<g transform="translate(0.000000, 209.000000)">
+<g transform="translate(272.000000, 3.000000)">
+<path d="M118.499533,0 C113.252812,0 109,4.25374527 109,9.49953338 C109,14.7462547 113.252812,19 118.499533,19 C123.746255,19 127.999067,14.7462547 127.999067,9.49953338 C127.999067,4.25374527 123.746255,0 118.499533,0 L118.499533,0 Z M115.477676,2.36951717 C115.612063,2.31258903 115.775382,2.36951717 115.83231,2.50483816 C115.948966,2.78294612 115.707255,3.11891547 114.687214,3.91310968 C113.397465,4.91635149 113.175352,5.76187436 113.425463,7.41745665 C113.67464,9.0721057 114.651751,9.12156786 115.263962,10.3730537 C115.876173,11.6245395 115.319024,12.6884425 116.254138,14.8395795 C116.663834,15.6981679 117.191119,16.2347856 117.407633,16.6659463 C117.524289,16.8973918 117.325507,17.1577681 117.071664,17.1101724 C113.474925,16.439167 110.74984,13.2913208 110.74984,9.49953338 C110.74984,6.29289258 112.700329,3.54820964 115.477676,2.36951717 L115.477676,2.36951717 Z M119.214401,16.3169114 C119.157473,15.6636377 119.66516,14.333759 120.658136,13.29972 C122.452773,11.4490889 121.083698,10.490643 119.347856,10.2554644 C117.612014,10.0202859 116.408124,10.7136893 115.98163,9.55739476 C115.555135,8.4020335 116.322265,7.90554546 116.579842,7.82248637 C116.837418,7.73942728 117.332973,7.46785206 118.135567,8.43096419 C118.471536,8.76600029 118.930694,8.82199519 118.919495,8.400167 C118.909229,7.97927207 118.385677,7.12908296 118.954025,6.45994401 C119.52144,5.7917383 120.819588,5.4567022 120.761727,4.46465936 C120.702932,3.47261653 119.861142,3.05732109 118.859767,3.31863058 C117.859325,3.57900683 117.318974,3.7740557 117.035267,2.91640061 C116.971806,2.72508473 116.918611,2.53750184 116.873815,2.36111793 C116.816887,2.13527187 116.962474,1.90569281 117.192986,1.86556314 C117.617614,1.79090329 118.053441,1.74984037 118.499533,1.74984037 C121.651113,1.74984037 124.363132,3.63126873 125.574488,6.332089 C125.982317,7.24293924 125.464365,8.31244167 124.49192,8.53642124 C124.486321,8.53828774 124.479788,8.53922098 124.472322,8.54108748 C123.284297,8.80986296 122.716882,9.28488629 124.063559,10.4271821 C124.38553,10.6408959 124.732698,10.8499435 125.056535,11.0953878 C125.596886,11.5050837 125.777003,12.2423498 125.48303,12.8536274 C124.475122,14.9478363 122.55263,16.5156933 120.232575,17.0457783 C119.749153,17.1559016 119.26293,16.8105997 119.214401,16.3169114 L119.214401,16.3169114 Z" id="earth"></path>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>
+</li>
+</ul>
+<label for="video-input">Video</label>
+<input id="video-input" type="search" v-model="source" @input="setVideoSource" placeholder="Paste link to the file here">
+<div class="input__error-text" v-if="sourceError">{{ sourceError }}</div>
+<div class="text-form__hint text-form__hint--important" :class="{ 'text-form__hint--active': isValidUrl && !isVimeo }">
+<strong>Important:</strong>
+<p>Please make sure that your video is optimized for web to avouid interruptions while playing. Supported file formats: <b>.webm</b> <b>.ogg</b> <b>.mp4</b> <b>.mov</b>.</p>
+<p v-if="isGoogleDrive">Warning: Google Drive does not support files more than 100 MB.</p>
+</div>
+<div class="text-form__hint text-form__hint--note" :class="{ 'text-form__hint--active': isValidUrl && isVimeo }">
+<strong>Note:</strong>
+<p>Due the Vimeo terms of use regulations, we are only able to provide controls customization if your video has <strong>Vimeo Plus plan or above</strong>.</p>
+</div>
+<div class="text-form__hint text-form__hint--quality" :class="{ 'text-form__hint--active': isVimeo }">
+<strong>Quality:</strong>
+<div class="toggle-switch toggle-switch--separated" v-if="isVimeo">
+<label>
+<input type="radio" name="quality" value="auto" v-model="quality" @change="setVideoSource"><span><i>Auto</i></span>
+</label>
+<label>
+<input type="radio" name="quality" value="1080p" v-model="quality" @change="setVideoSource"><span><i>1080p</i></span>
+</label>
+<label>
+<input type="radio" name="quality" value="720p" v-model="quality" @change="setVideoSource"><span><i>720p</i></span>
+</label>
+<label>
+<input type="radio" name="quality" value="540p" v-model="quality" @change="setVideoSource"><span><i>540p</i></span>
+</label>
+</div>
+</div>
+</div>
+<div class="text-form text-form--preview"><span class="hightlight display-mobile-none">Highly recommended</span>
+<label for="cover-image-input">Cover image</label>
+<input id="cover-image-input" type="text" v-model="poster" @change="setPoster" placeholder="Paste link to HQ image here">
+<div class="input__error-text" v-if="posterSourceError">{{ posterSourceError }}</div>
+<div class="text-form__preview" v-if="poster">
+<div class="preview-close" @click="removePoster"><div></div>
+</div>
+<img :src="poster" alt="Cover">
+</div>
+</div>
+<div class="text-form text-form--split">
+<label for="size-input">Size</label>
+<div class="text-form__split-fields size-input" :class="{ responsive: responsiveSize }">
+<div class="size-block__auto">
+<div class="size-button__auto" @click="toggleResponsive">
+<div class="button-off">
+<div class="vertical-line"></div>
+<div class="horizontal-line"></div>
+<div class="caption">R</div>
+<div class="horizontal-line"></div>
+<div class="vertical-line"></div>
+</div>
+<div class="button-on">
+<div class="vertical-line"></div>
+<div class="horizontal-line"></div>
+<div class="caption">Responsive</div>
+<div class="horizontal-line"></div>
+<div class="vertical-line"></div>
+</div>
+</div>
+<div class="size-button__custom" @click="toggleResponsive">Custom</div>
+</div>
+<div class="size-block__custom">
+<input id="size-input" type="number" value="600" maxlength="6" @input="calculateHeight" v-model="width">
+<span class="cross">
+<svg width="9px" height="10px" viewbox="0 0 9 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-1116.000000, -915.000000)" fill="#393B41">
+<g transform="translate(920.000000, 331.000000)">
+<g id="Size" transform="translate(0.000000, 520.000000)">
+<g id="Input-Field-Copy" transform="translate(0.000000, 40.000000)">
+<polygon id="x" points="199.636 29.104 196.522 24.694 198.358 24.694 200.572 27.988 202.876 24.694 204.55 24.694 201.49 29.086 204.874 34 203.056 34 200.5 30.238 197.926 34 196.198 34"></polygon>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>
+</span>
+<input id="size-input-width" type="number" value="400" maxlength="6" @input="calculateWidth" v-model="height">
+<label for="size-input-width"></label>
+</div>
+</div>
+</div>
+<div class="text-form">
+
+<label>Adjustments</label>
+<div class="text-form__adjustments">
+<div class="button-adjust">
+<input id="autoplay" type="checkbox" name="autoplay" v-model="autoplay" @change="gifmode = false">
+<label for="autoplay"><i class="checkmark">
+<svg width="15px" height="20px" viewbox="0 0 15 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<title>Path 3</title>
+<desc>Created with Sketch.</desc>
+<defs></defs>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-953.000000, -1137.000000)" fill="#2A2C2D">
+<g transform="translate(920.000000, 331.000000)">
+<g transform="translate(0.000000, 656.000000)">
+<g transform="translate(6.000000, 60.000000)">
+<path d="M27,108 L27,92 C27,90.8954305 27.8954305,90 29,90 C29.4327404,90 29.8538077,90.1403557 30.2,90.4 L40.8666667,98.4 C41.7503223,99.0627417 41.9294084,100.316344 41.2666667,101.2 C41.1529582,101.351611 41.018278,101.486292 40.8666667,101.6 L30.2,109.6 C29.3163444,110.262742 28.0627417,110.083656 27.4,109.2 C27.1403557,108.853808 27,108.43274 27,108 Z"></path>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg></i>
+</label>
+<div class="button-adjust__text">auto<br>play</div>
+</div>
+<div class="button-adjust">
+<input id="autopause" type="checkbox" name="autopause" v-model="autopause" @change="stash.autopause = autopause; gifmode = false">
+<label for="autopause"><i class="checkmark">
+<svg width="17px" height="20px" viewbox="0 0 17 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<title>Combined Shape</title>
+<desc>Created with Sketch.</desc>
+<defs></defs>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-1034.000000, -1137.000000)" fill="#2A2C2D">
+<g transform="translate(920.000000, 331.000000)">
+<g transform="translate(0.000000, 656.000000)">
+<g transform="translate(87.000000, 60.000000)">
+<path d="M29,90 L30.3333333,90 C31.4379028,90 32.3333333,90.8954305 32.3333333,92 L32.3333333,108 C32.3333333,109.104569 31.4379028,110 30.3333333,110 L29,110 C27.8954305,110 27,109.104569 27,108 L27,92 C27,90.8954305 27.8954305,90 29,90 Z M40.3333333,90 L41.6666667,90 C42.7712362,90 43.6666667,90.8954305 43.6666667,92 L43.6666667,108 C43.6666667,109.104569 42.7712362,110 41.6666667,110 L40.3333333,110 C39.2287638,110 38.3333333,109.104569 38.3333333,108 L38.3333333,92 C38.3333333,90.8954305 39.2287638,90 40.3333333,90 Z"></path>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg></i></label>
+<div class="button-adjust__text">auto<br>pause</div>
+</div>
+<div class="button-adjust">
+<input id="loop" type="checkbox" name="loop" v-model="loop" @change="stash.loop = loop; gifmode = false">
+<label for="loop"><i class="checkmark">
+<svg width="26px" height="28px" viewbox="0 0 26 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<title>repeat</title>
+<desc>Created with Sketch.</desc>
+<defs></defs>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-1110.000000, -1133.000000)" fill="#2A2C2D">
+<g transform="translate(920.000000, 331.000000)">
+<g transform="translate(0.000000, 656.000000)">
+<g id="btn03" transform="translate(168.000000, 60.000000)">
+<path d="M24.5328181,101.520386 C23.4742395,101.838609 22.3404695,101.171225 22.1443818,100.082489 C21.8583592,98.4854811 21.9836784,96.7455671 22.6427099,94.9717684 C23.9445551,91.4668952 27.4269541,89.245227 31.1673632,89.245227 L38.5317083,89.245227 C39.0565745,89.245227 39.4811854,88.8209296 39.4811854,88.2964509 L39.4811854,86.5093928 C39.4811854,86.0909885 39.960347,85.8508479 40.2964973,86.1027745 L45.8798356,90.2927111 C46.3958558,90.6801772 46.3958558,91.4551092 45.8783613,91.8411019 L40.295023,96.0148328 C39.960347,96.2652861 39.4811854,96.0266188 39.4811854,95.6067412 L39.4811854,93.9021854 C39.4811854,93.3777067 39.0565745,92.951936 38.5317083,92.951936 L31.1865297,92.951936 C29.3273827,92.951936 27.5257351,93.8550412 26.5836297,95.4579425 C25.7579974,96.8590078 25.5766532,98.1878836 25.7933817,99.375327 C25.9658798,100.31821 25.451334,101.243414 24.5328181,101.520386 Z M45.4671819,98.2129474 C46.5257605,97.8947244 47.6595305,98.5621088 47.8556182,99.6508441 C48.1416408,101.247852 48.0163216,102.987766 47.3572901,104.761565 C46.0554449,108.266438 42.5730459,110.488106 38.8326368,110.488106 L31.4682917,110.488106 C30.9434255,110.488106 30.5188146,110.912404 30.5188146,111.436882 L30.5188146,113.223941 C30.5188146,113.642345 30.039653,113.882485 29.7035027,113.630559 L24.1201644,109.440622 C23.6041442,109.053156 23.6041442,108.278224 24.1216387,107.892231 L29.704977,103.718501 C30.039653,103.468047 30.5188146,103.706715 30.5188146,104.126592 L30.5188146,105.831148 C30.5188146,106.355627 30.9434255,106.781397 31.4682917,106.781397 L38.8134703,106.781397 C40.6726173,106.781397 42.4742649,105.878292 43.4163703,104.275391 C44.2420026,102.874326 44.4233468,101.54545 44.2066183,100.358006 C44.0341202,99.4151233 44.548666,98.4899193 45.4671819,98.2129474 Z" id="repeat"></path>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg></i></label>
+<div class="button-adjust__text">loop</div>
+</div>
+<div class="button-adjust">
+<input id="mute" type="checkbox" name="mute" v-model="muted">
+<label for="mute"><i class="checkmark">
+<svg width="18px" height="20px" viewbox="0 0 18 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<title>mute</title>
+<desc>Created with Sketch.</desc>
+<defs></defs>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-1194.000000, -1137.000000)" fill="#2A2C2D">
+<g transform="translate(920.000000, 331.000000)">
+<g transform="translate(0.000000, 656.000000)">
+<g transform="translate(249.000000, 60.000000)">
+<path d="M38.9844267,91.491217 C39.00176,92.079217 38.7350933,92.6405503 38.2670933,92.9965503 L27.3710933,101.295217 C26.81776,101.71655 26.0190933,101.329884 26.00576,100.63255 C25.99776,100.239217 26.0004267,99.9405503 26.0004267,99.8565503 C26.0004267,99.6698836 26.0564267,98.4178836 26.1590933,97.4445503 C26.26176,96.4725503 26.8950933,95.4085503 28.61776,95.4085503 C30.3390933,95.4085503 31.1284267,94.799217 31.8910933,94.231217 C32.65376,93.6645503 35.0244267,91.8885503 37.12576,90.347217 C38.1324267,89.6098836 38.9844267,90.0725503 38.9844267,91.491217 Z M33.1030933,104.865884 L37.7644267,101.095217 C38.37776,100.599217 39.2950933,101.049884 39.2684267,101.839217 C39.18576,104.335217 38.9924267,106.89255 38.95376,108.22855 C38.9150933,109.525884 38.2724267,110.22855 36.8750933,109.16455 C35.4790933,108.101884 34.0990933,107.013884 33.1110933,106.24855 C32.6604267,105.899217 32.6590933,105.22455 33.1030933,104.865884 Z M42.5524267,93.6058836 C42.9124267,94.0738836 42.8910933,94.863217 42.42176,95.223217 L27.7630933,106.381884 C27.29376,106.74055 26.55776,106.641884 26.1990933,106.17255 C25.8404267,105.703217 25.82576,104.915217 26.29376,104.55655 L40.9524267,93.3045503 C41.42176,92.9458836 42.19376,93.1365503 42.5524267,93.6058836 Z" id="mute"></path>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg></i></label>
+<div class="button-adjust__text">mute</div>
+</div>
+<div class="button-adjust button-adjust--red">
+<input id="gifmode" type="checkbox" name="gifmode" v-model="gifmode">
+<label for="gifmode"><i class="checkmark">
+<svg width="26px" height="23px" viewbox="0 0 26 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<title>Fill 1 Copy 2</title>
+<desc>Created with Sketch.</desc>
+<defs></defs>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-425.000000, -219.000000)" fill="#2A2C2D">
+<g transform="translate(74.000000, 71.000000)">
+<g id="btn05---active" transform="translate(324.000000, 49.000000)">
+<path d="M42.457,103 L32.543,103 C31.692,103 31,103.692 31,104.543 L31,112.457 C31,113.307 31.692,114 32.543,114 L42.457,114 C43.308,114 44,113.307 44,112.457 L44,104.543 C44,103.692 43.308,103 42.457,103 Z M49,107 L46,107 C45.724,107 45.5,107.224 45.5,107.5 C45.5,107.776 45.724,108 46,108 L49,108 C49.276,108 49.5,107.776 49.5,107.5 C49.5,107.224 49.276,107 49,107 Z M49,105 L46,105 C45.724,105 45.5,105.224 45.5,105.5 C45.5,105.776 45.724,106 46,106 L49,106 C49.276,106 49.5,105.776 49.5,105.5 C49.5,105.224 49.276,105 49,105 Z M49,103 L46,103 C45.724,103 45.5,103.224 45.5,103.5 C45.5,103.776 45.724,104 46,104 L49,104 C49.276,104 49.5,103.776 49.5,103.5 C49.5,103.224 49.276,103 49,103 Z M47.427,110.646 C46.455,110.646 45.667,111.434 45.667,112.406 C45.667,113.378 46.455,114.167 47.427,114.167 C48.399,114.167 49.187,113.378 49.187,112.406 C49.187,111.434 48.399,110.646 47.427,110.646 Z M51,115.057 C51,115.577 50.577,116 50.056,116 L29.944,116 C29.423,116 29,115.577 29,115.057 L29,101.943 C29,101.423 29.423,101 29.944,101 L50.056,101 C50.577,101 51,101.423 51,101.943 L51,115.057 Z M50.056,99 L29.944,99 C28.321,99 27,100.32 27,101.943 L27,115.057 C27,116.68 28.321,118 29.944,118 L31,118 L31,121 C31,121.553 31.448,122 32,122 C32.552,122 33,121.553 33,121 L33,120 L47,120 L47,121 C47,121.553 47.448,122 48,122 C48.552,122 49,121.553 49,121 L49,118 L50.056,118 C51.679,118 53,116.68 53,115.057 L53,101.943 C53,100.32 51.679,99 50.056,99 Z" id="Fill-1-Copy-2"></path>
+</g>
+</g>
+</g>
+</g>
+</svg></i></label>
+<div class="button-adjust__text">gif<br>mode</div>
+</div>
+</div>
+</div>
+<div class="text-form">
+<div class="text-form__hint text-form__hint--important" :class="{ 'text-form__hint--active': gifmode }">
+<strong>You have enabled the GIF mode</strong>
+<p>GIF mode imitates gif file behaviour of the video, which means no sound, passive autoplay, without any controls options</p>
+</div>
+</div>
+<transition name="slide-fade">
+<div v-show="!gifmode">
+<hr class="line">
+
+<div class="text-form">
+
+<label>Video Controls</label>
+<ul class="text-form__list">
+<li class="list__item">
+<label class="label--checkbox">
+<input class="checkbox" type="checkbox" v-model="playButton">Play button
+<span class="logo--checkbox">
+<svg width="15px" height="20px" viewbox="0 0 15 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<title>Path 3</title>
+<desc>Created with Sketch.</desc>
+<defs></defs>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-953.000000, -1137.000000)" fill="#2A2C2D">
+<g transform="translate(920.000000, 331.000000)">
+<g transform="translate(0.000000, 656.000000)">
+<g transform="translate(6.000000, 60.000000)">
+<path d="M27,108 L27,92 C27,90.8954305 27.8954305,90 29,90 C29.4327404,90 29.8538077,90.1403557 30.2,90.4 L40.8666667,98.4 C41.7503223,99.0627417 41.9294084,100.316344 41.2666667,101.2 C41.1529582,101.351611 41.018278,101.486292 40.8666667,101.6 L30.2,109.6 C29.3163444,110.262742 28.0627417,110.083656 27.4,109.2 C27.1403557,108.853808 27,108.43274 27,108 Z"></path>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg></span>
+</label>
+</li>
+<li class="list__item">
+<label class="label--checkbox">
+<input class="checkbox" type="checkbox" v-model="time">Time
+<span class="logo--checkbox">{{ videoDuration }}</span>
+</label>
+</li>
+<li class="list__item">
+<label class="label--checkbox">
+<input class="checkbox" type="checkbox" v-model="progressBar">Play bar
+<span class="logo--checkbox">
+<svg width="42px" height="10px" viewbox="0 0 42 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>playbar</title>
+<desc>Created with Sketch.</desc>
+<defs></defs>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-439.000000, -691.000000)">
+<g id="playbar" transform="translate(439.000000, 691.000000)">
+<path d="M0.949130897,5 L40.2911621,5" id="Path-2" stroke="#4F4F4F" stroke-width="2"></path>
+<circle id="Oval" fill="#2A2C2D" cx="37" cy="5" r="5"></circle>
+</g>
+</g>
+</g>
+</svg></span>
+</label>
+</li>
+<li class="list__item">
+<label class="label--checkbox">
+<input class="checkbox" type="checkbox" v-model="muteButton">Volume
+<span class="logo--checkbox">
+<svg width="18px" height="20px" viewbox="0 0 18 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>mute</title>
+<desc>Created with Sketch.</desc>
+<defs></defs>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-1194.000000, -1137.000000)" fill="#2A2C2D">
+<g transform="translate(920.000000, 331.000000)">
+<g transform="translate(0.000000, 656.000000)">
+<g transform="translate(249.000000, 60.000000)">
+<path d="M38.9844267,91.491217 C39.00176,92.079217 38.7350933,92.6405503 38.2670933,92.9965503 L27.3710933,101.295217 C26.81776,101.71655 26.0190933,101.329884 26.00576,100.63255 C25.99776,100.239217 26.0004267,99.9405503 26.0004267,99.8565503 C26.0004267,99.6698836 26.0564267,98.4178836 26.1590933,97.4445503 C26.26176,96.4725503 26.8950933,95.4085503 28.61776,95.4085503 C30.3390933,95.4085503 31.1284267,94.799217 31.8910933,94.231217 C32.65376,93.6645503 35.0244267,91.8885503 37.12576,90.347217 C38.1324267,89.6098836 38.9844267,90.0725503 38.9844267,91.491217 Z M33.1030933,104.865884 L37.7644267,101.095217 C38.37776,100.599217 39.2950933,101.049884 39.2684267,101.839217 C39.18576,104.335217 38.9924267,106.89255 38.95376,108.22855 C38.9150933,109.525884 38.2724267,110.22855 36.8750933,109.16455 C35.4790933,108.101884 34.0990933,107.013884 33.1110933,106.24855 C32.6604267,105.899217 32.6590933,105.22455 33.1030933,104.865884 Z M42.5524267,93.6058836 C42.9124267,94.0738836 42.8910933,94.863217 42.42176,95.223217 L27.7630933,106.381884 C27.29376,106.74055 26.55776,106.641884 26.1990933,106.17255 C25.8404267,105.703217 25.82576,104.915217 26.29376,104.55655 L40.9524267,93.3045503 C41.42176,92.9458836 42.19376,93.1365503 42.5524267,93.6058836 Z" id="mute"></path>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg></span>
+</label>
+</li>
+<li class="list__item">
+<label class="label--checkbox">
+<input class="checkbox" type="checkbox" v-model="fullscreenButton">Fullscreen
+<span class="logo--checkbox">
+<svg width="19px" class="fullscreen-icon-on" height="19px" viewbox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Fullscreen</title>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-1351.000000, -1231.000000)" fill="#2A2C2D">
+<g transform="translate(802.000000, 794.000000)">
+<path id="fullscreen" d="M554.971733,448.344364 C555.432291,447.885212 556.177464,447.885212 556.638022,448.344364 L556.638022,448.344364 L556.654581,448.36091 C557.11514,448.821096 557.11514,449.566701 556.654581,450.025853 L556.654581,450.025853 L554.013357,452.664943 C553.750477,452.928645 553.750477,453.354705 554.013357,453.618407 L554.013357,453.618407 L555.245998,454.850052 C555.671367,455.274043 555.370193,456 554.769915,456 L554.769915,456 L549,456 L549,450.234747 C549,449.634953 549.726544,449.334023 550.150878,449.759049 L550.150878,449.759049 L551.377308,450.983454 C551.640189,451.247156 552.067628,451.247156 552.330509,450.983454 L552.330509,450.983454 Z M568,437 L568,442.764694 C568,443.36443 567.273456,443.665331 566.849122,443.240346 L566.849122,443.240346 L565.622692,442.01606 C565.359811,441.753417 564.932372,441.753417 564.669491,442.01606 L564.669491,442.01606 L562.028267,444.654894 C561.567709,445.115035 560.822536,445.115035 560.361978,444.654894 L560.361978,444.654894 L560.345419,444.638349 C559.88486,444.178208 559.88486,443.433709 560.345419,442.973568 L560.345419,442.973568 L562.986643,440.334734 C563.249523,440.071057 563.249523,439.645038 562.986643,439.381362 L562.986643,439.381362 L561.752967,438.149837 C561.328633,437.725886 561.629807,437 562.230085,437 L562.230085,437 L568,437 Z"></path>
+</g>
+</g>
+</g>
+</svg>
+</span>
+</label>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+</div>
+<hr class="line">
+<div class="text-form">
+<ul class="accordion">
+<li><a>Advanced customization</a>
+<div class="accordion__container">
+<ul class="text-form__list">
+<li class="list__item">
+<label class="label--checkbox label--mb0">
+<input class="checkbox" type="checkbox" v-model="advancedButton">Play button
+</label>
+<div class="checkbox-text-field checkbox-text-field--split6">
+<div>
+<input type="text" value="#ffffff" v-model="buttonColor">
+<div class="checkbox-text-field__subline">Color</div>
+</div>
+<div>
+<input type="number" value="90" v-model="buttonSize">
+<div class="checkbox-text-field__subline">Size</div>
+</div>
+</div>
+</li>
+<li class="list__item">
+<label class="label--checkbox label--mb0">
+<input class="checkbox" type="checkbox" v-model="advancedOverlay">Color overlay
+</label>
+<div class="checkbox-text-field checkbox-text-field--split6">
+<div>
+<input type="text" value="#ffffff" v-model="overlayColor">
+<div class="checkbox-text-field__subline">Color</div>
+</div>
+<div class="inputWrap inputWrap--opacity">
+<input type="number" min="0" step="10" max="100" v-model="overlayOpacityPercent">
+<div class="checkbox-text-field__subline">Opacity</div>
+</div>
+</div>
+</li>
+<li class="list__item">
+<label class="label--checkbox label--mb0">
+<input class="checkbox" type="checkbox" v-model="advancedShadow">Shadow:
+</label>
+<div class="checkbox-text-field checkbox-text-field--split4">
+<div>
+<input type="number" v-model="shadowX">
+<div class="checkbox-text-field__subline">X</div>
+</div>
+<div>
+<input type="number" v-model="shadowY">
+<div class="checkbox-text-field__subline">Y</div>
+</div>
+<div>
+<input type="number" v-model="shadowBlur">
+<div class="checkbox-text-field__subline">Blur</div>
+</div>
+<div>
+<input type="number" v-model="shadowSpread">
+<div class="checkbox-text-field__subline">Spread</div>
+</div>
+</div>
+</li>
+<li class="list__item">
+<label class="label--checkbox label--mb0">
+<input class="checkbox" type="checkbox" v-model="advancedStroke">Stroke
+</label>
+<div class="checkbox-text-field checkbox-text-field--split6">
+<div>
+<input type="text" v-model="strokeColor">
+<div class="checkbox-text-field__subline">Color</div>
+</div>
+<div>
+<input type="number" min="0" max="100" v-model="strokeSize">
+<div class="checkbox-text-field__subline">Thickness</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</transition>
+<div class="text-form" v-show="gifmode"></div>
+<div class="text-form">
+<button class="button button--black button--w100" @click="reset">Reset</button>
+</div>
+</div>
+</div>
+<div class="footer display-mobile-none">
+<div class="footer__logo">
+<h1 class="logo">onelineplayer</h1>
+</div>
+<div class="footer__description">
+</div>
+<div class="footer__copyright">© 2018 OMDA INC. All Rights Reserved. <a href="https://www.iubenda.com/privacy-policy/44070946" class="privacy-link iubenda-nostyle iubenda-embed" title="Privacy Policy ">Privacy Policy</a></div>
+</div>
+<div class="footer-mobile display-mobile-block">
+<div class="footer-mobile__copyright">© 2018 OMDA INC. All Rights Reserved. <div style="padding-top: 10px;"><a href="https://www.iubenda.com/privacy-policy/44070946" class="privacy-link iubenda-nostyle iubenda-embed" title="Privacy Policy ">Privacy Policy</a></div></div>
+</div>
+<script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+</div>
+<div class="about-page">
+<div class="container">
+<div class="header header--white">
+<div class="header__logo">
+<h1 class="logo">onelineplayer</h1>
+</div>
+<div class="header__description">
+<div class="header-line"></div>
+</div>
+</div>
+</div>
+<div class="container container--black">
+<div class="row">
+<div class="col-1">
+<h2 class="black-title display-mobile-none">What is onelineplayer?</h2>
+<p class="text text--bold">We are a video player that finally allows you to present videos in a nicest way&nbsp;<span class="white">without any bullshit</span>.</p>
+<p class="text">No branding, no overwhelming controls, no black screens, and no loss of quality, no coding. This player can be used for your website, portfolio, social media, and it's absolutely free. </p>
+<p class="text">This player was made by enthusiasts who've grown sick of ugly players - Dmitry Kiselev & George Kvasnikov.</p>
+</div>
+<div class="col-1 authors-col">
+<div class="authors" style="margin-bottom: 25px">
+<a href="https://www.facebook.com/dmitry.kiselev.581" target="_blank" class="author-image" rel="noreferrer">
+<img src="common/images/dmitry_kiselev_2.jpg" title="Dmitry Kiselev" alt="Dmitry Kiselev">
+</a>
+<a href="https://www.facebook.com/gkvasnikov" target="_blank" class="author-image" rel="noreferrer">
+<img src="common/images/george_kvasnikov.jpg" title="George Kvasnikov" alt="George Kvasnikov">
+</a>
+</div>
+<p class="text text--small">We are investing our own time and resources in this project. Like your new player?
+This will allow us to move this project forward:
+</p>
+<div class="share_icons">
+<a href="https://twitter.com/intent/tweet?text=Check%20out%20this%20awesome%20video%20player%20-%20https%3A%2F%2Fonelineplayer.com" aria-label="Share on Twitter">
+<img src="common/images/twitter_icon_grey.svg" height="30" width="30" alt="Share on Twitter">
+</a>
+<a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fonelineplayer.com" aria-label="Share on Facebook">
+<img src="common/images/facebook_icon_grey.svg" height="30" width="30" alt="Share on Facebook">
+</a>
+</div>
+</div>
+</div>
+<hr class="line line--large">
+<h2 class="black-title">How to use?</h2>
+<div class="row">
+<div class="col-1">
+<h3 class="black-title black-title--small">Link your Video File</h3>
+<p class="text text--smaller">We are not a video hosting platform. We've created a video player which allows you to play your own videos using direct link to uploaded video, like your web hosting or Dropbox. Or it can play any video direclty from Vimeo!</p>
+<div style="margin-top: 20px">
+<img src="common/images/vimeo_grey.svg" width="30" height="30" style="margin-right: 20px" alt="Vimeo">
+<img src="common/images/dropbox_grey.svg" width="30" height="30" style="margin-right: 20px" alt="Dropbox">
+
+</div>
+</div>
+<div class="col-1">
+<h3 class="black-title black-title--small">Add HQ Preview</h3>
+<p class="text text--smaller">We recommend you to add an HQ image for preview. The video player will load significantly faster and the preview will be of much higher quality than an automatic screenshot from your video. Make your file size is as small as possible and in following formats:</p><img src="common/images/formats.svg" style="width: 127px; margin-top: 20px;" alt="JPG, PNG">
+</div>
+<div class="col-1">
+<h3 class="black-title black-title--small">Adjust Player Style</h3>
+<p class="text text--smaller">We designed this player to be as simple as possible and to not to bother you. You can adjust the player to match your needs. Please explore advanced settings to see full customization options.</p>
+</div>
+</div>
+<hr class="line line--large">
+
+<div class="contact-us">
+<h2 class="black-title">Contact us</h2>
+<p class="text text--bold">For any type of questions please use our email <span class="white"><a href="cdn-cgi/l/email-protection.html#99f0f7edfcebf8faedd9f6f7fcf5f0f7fce9f5f8e0fcebb7faf6f4"><span class="__cf_email__" data-cfemail="5d343329382f3c3e291d323338313433382d313c24382f733e3230">[email&#160;protected]</span></a></span></p>
+</div>
+<div class="close-tip text text--smaller display-mobile-block">
+<small>Touch to get back to player</small>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="mobile-indicator"></div>
+
+<script data-cfasync="false" src="cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="common/script/assets.min.js"></script>
+<template id="player-template">
+<div class="oneline-wrap">
+<video id="video" style="display: none" class="oneline" playsinline></video>
+<div id="embed-video"></div>
+<div class="oneline-error-box"><div class="oneline-error-message"></div></div>
+<div class="oneline-poster" style="display: none"></div>
+<div class="oneline-overlay" style="display: none"></div>
+<div class="oneline-play-pause" style="display: none">
+<button aria-label="Play">
+<svg class="oneline-play-button" width="29px" height="29px" viewbox="-3 0 26 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.9">
+<g class="oneline-icon" id="VideoPlayer-2.0" transform="translate(-308.000000, -226.000000)" fill="#EFEFEF" fill-rule="nonzero">
+<g>
+<path d="M308,252.742128 L308,228.216201 C308,227.111631 308.895431,226.216201 310,226.216201 C310.395737,226.216201 310.782578,226.333602 311.111565,226.553545 L329.506011,238.85112 C330.42427,239.46502 330.671002,240.707081 330.057101,241.62534 C329.910345,241.844855 329.721572,242.033137 329.501676,242.179321 L311.10723,254.407674 C310.187374,255.01918 308.945961,254.769213 308.334454,253.849358 C308.116351,253.521277 308,253.13609 308,252.742128 Z" id="Path"></path>
+</g>
+</g>
+</g>
+</svg>
+<svg class="oneline-pause-button" width="20px" height="20px" viewbox="-1 0 19 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.9">
+<g class="oneline-icon" transform="translate(-1034.000000, -1137.000000)" fill="#EFEFEF">
+<g transform="translate(920.000000, 331.000000)">
+<g transform="translate(0.000000, 656.000000)">
+<g transform="translate(87.000000, 60.000000)">
+<path d="M29,90 L30.3333333,90 C31.4379028,90 32.3333333,90.8954305 32.3333333,92 L32.3333333,108 C32.3333333,109.104569 31.4379028,110 30.3333333,110 L29,110 C27.8954305,110 27,109.104569 27,108 L27,92 C27,90.8954305 27.8954305,90 29,90 Z M40.3333333,90 L41.6666667,90 C42.7712362,90 43.6666667,90.8954305 43.6666667,92 L43.6666667,108 C43.6666667,109.104569 42.7712362,110 41.6666667,110 L40.3333333,110 C39.2287638,110 38.3333333,109.104569 38.3333333,108 L38.3333333,92 C38.3333333,90.8954305 39.2287638,90 40.3333333,90 Z"></path>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>
+</button>
+</div>
+<div class="oneline-loader-container">
+<div class="la-ball-pulse">
+<div></div>
+<div></div>
+<div></div>
+</div>
+</div>
+<div class="oneline-controls">
+<div class="oneline-time" style="display: none"></div>
+<div class="oneline-progress" style="display: none" tabindex="0" role="slider" aria-orientation="horizontal">
+<div class="oneline-progress-fill-bg">
+<div class="oneline-progress-fill"></div>
+</div>
+<div class="oneline-progress-seek-fill"></div>
+<svg class="ring" width="120" height="120">
+<circle class="ring-circle ring-bg" stroke="white" stroke-width="4" fill="transparent" r="52" cx="60" cy="60" />
+<circle class="ring-circle ring-fill" stroke="red" stroke-width="4" fill="transparent" r="52" cx="60" cy="60" />
+<circle class="ring-circle ring-seek" stroke="blue" stroke-width="4" fill="transparent" r="52" cx="60" cy="60" />
+</svg>
+</div>
+<div class="oneline-control-buttons">
+<button class="oneline-mute-button" style="display: none">
+<svg class="mute" width="16px" height="20px" viewbox="0 0 16 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Mute</title>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-1392.000000, -1231.000000)" fill="#FFFFFF" fill-rule="nonzero">
+<g transform="translate(802.000000, 794.000000)">
+<path d="M602.985222,437 L602.985222,456.123535 L600.787842,456.123535 L592.44458,450.014526 L590,450.014526 L590,442.986084 L592.44458,442.986084 L600.787842,437 L602.985222,437 Z M606,444 L606,449 L604,449 L604,444 L606,444 Z"></path>
+</g>
+</g>
+</g>
+</svg>
+<svg class="unmute" width="16px" height="20px" viewbox="0 0 16 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Unmute</title>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-1392.000000, -1197.000000)" fill="#FFFFFF" fill-rule="nonzero">
+<g transform="translate(802.000000, 794.000000)">
+<path d="M602.985,411.757 L602.985222,422.123535 L600.787842,422.123535 L596.072,418.67 L602.985,411.757 Z M606.424621,403.368272 L607.838835,404.782486 L592.282486,420.338835 L590.868272,418.924621 L606.424621,403.368272 Z M602.985222,403 L602.985,404.687 L591.658,416.014 L590,416.014526 L590,408.986084 L592.44458,408.986084 L600.787842,403 L602.985222,403 Z M606,410 L606,415 L604,415 L604,410.742 L604.743,409.999 L606,410 Z"></path>
+</g>
+</g>
+</g>
+</svg>
+</button>
+<button class="oneline-fullscreen-button" style="display: none">
+<svg width="19px" class="fullscreen-icon-on" height="19px" viewbox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Fullscreen</title>
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-1351.000000, -1231.000000)" fill="#FFFFFF">
+<g transform="translate(802.000000, 794.000000)">
+<path d="M554.971733,448.344364 C555.432291,447.885212 556.177464,447.885212 556.638022,448.344364 L556.638022,448.344364 L556.654581,448.36091 C557.11514,448.821096 557.11514,449.566701 556.654581,450.025853 L556.654581,450.025853 L554.013357,452.664943 C553.750477,452.928645 553.750477,453.354705 554.013357,453.618407 L554.013357,453.618407 L555.245998,454.850052 C555.671367,455.274043 555.370193,456 554.769915,456 L554.769915,456 L549,456 L549,450.234747 C549,449.634953 549.726544,449.334023 550.150878,449.759049 L550.150878,449.759049 L551.377308,450.983454 C551.640189,451.247156 552.067628,451.247156 552.330509,450.983454 L552.330509,450.983454 Z M568,437 L568,442.764694 C568,443.36443 567.273456,443.665331 566.849122,443.240346 L566.849122,443.240346 L565.622692,442.01606 C565.359811,441.753417 564.932372,441.753417 564.669491,442.01606 L564.669491,442.01606 L562.028267,444.654894 C561.567709,445.115035 560.822536,445.115035 560.361978,444.654894 L560.361978,444.654894 L560.345419,444.638349 C559.88486,444.178208 559.88486,443.433709 560.345419,442.973568 L560.345419,442.973568 L562.986643,440.334734 C563.249523,440.071057 563.249523,439.645038 562.986643,439.381362 L562.986643,439.381362 L561.752967,438.149837 C561.328633,437.725886 561.629807,437 562.230085,437 L562.230085,437 L568,437 Z"></path>
+</g>
+</g>
+</g>
+</svg>
+<svg class="fullscreen-icon-off" width="19px" height="19px" viewbox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-1351.000000, -1197.000000)" fill="#FFFFFF">
+<g transform="translate(802.000000, 794.000000)">
+<path d="M557,414 L557,419.764694 C557,420.36443 556.273456,420.665331 555.849122,420.240346 L555.849122,420.240346 L554.622692,419.01606 C554.359811,418.753417 553.932372,418.753417 553.669491,419.01606 L553.669491,419.01606 L551.028267,421.654894 C550.567709,422.115035 549.822536,422.115035 549.361978,421.654894 L549.361978,421.654894 L549.345419,421.638349 C548.88486,421.178208 548.88486,420.433709 549.345419,419.973568 L549.345419,419.973568 L551.986643,417.334734 C552.249523,417.071057 552.249523,416.645038 551.986643,416.381362 L551.986643,416.381362 L550.752967,415.149837 C550.328633,414.725886 550.629807,414 551.230085,414 L551.230085,414 L557,414 Z M565.971733,403.344364 C566.432291,402.885212 567.177464,402.885212 567.638022,403.344364 L567.638022,403.344364 L567.654581,403.36091 C568.11514,403.821096 568.11514,404.566701 567.654581,405.025853 L567.654581,405.025853 L565.013357,407.664943 C564.750477,407.928645 564.750477,408.354705 565.013357,408.618407 L565.013357,408.618407 L566.245998,409.850052 C566.671367,410.274043 566.370193,411 565.769915,411 L565.769915,411 L560,411 L560,405.234747 C560,404.634953 560.726544,404.334023 561.150878,404.759049 L561.150878,404.759049 L562.377308,405.983454 C562.640189,406.247156 563.067628,406.247156 563.330509,405.983454 L563.330509,405.983454 Z"></path>
+</g>
+</g>
+</g>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</template>
+<script src="https://player.vimeo.com/api/player.js"></script>
+<script src="player.js"></script>
+<script src="common/script/main.min.js"></script>
+</body>
+</html>
